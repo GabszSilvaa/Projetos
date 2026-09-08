@@ -23,7 +23,7 @@ public class ItemMenu {
         return preco;
     }
 
-    @Override
+    
     public String toString() {
         return String.format("[%d] %-20s - R$ %.2f", id, nome, preco);
     }
