@@ -1,8 +1,5 @@
 package App;
-import App.pedido;
-import App.ItemMenu;
-import App.cancelamento;
-import App.ConsultarSaldo;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,13 +9,15 @@ public class SistemadeRestaurante {
     private static List<ItemMenu> cardapio = new ArrayList<>();
     private static final pedido pedidoAtual = new pedido();
 
+    private static cancelamento cancelamentoAtual = new cancelamento(0);
+
     public static void main(String[] args) {
         carregarCardapio();
         Scanner scanner = new Scanner(System.in);
         int opcao = 0;
 
         do {
-            System.out.println("\n=== SISTEMA DE RESTAURANTE ===");
+            System.out.println("\n=== SEJA BEM VINDO AO RESTAURANTE Byte & Brasa ===");
             System.out.println("1. Ver Cardápio");
             System.out.println("2. Adicionar Item ao Pedido");
             System.out.println("3. Ver Resumo do Pedido");
@@ -53,6 +52,7 @@ public class SistemadeRestaurante {
                     pedidoAtual.exibirResumo();
                     break;
                 case 4:
+                    System.out.println("Cancelando item do pedido...");
                     cancelamento cancelamentoAtual = new cancelamento(0);
                     System.out.print("Digite o ID do item que deseja cancelar: ");
                     int idCancelamento = scanner.nextInt();
@@ -67,10 +67,12 @@ public class SistemadeRestaurante {
                         System.out.println("Item não encontrado no pedido.");
                         break;
                     }
+                    cancelarItemDoPedido(idCancelamento);
+                    System.out.println("Item cancelado com sucesso.");
                     break;
                 case 5:
-                    if (pedidoAtual.calcularTotal() > 400.0) {
-                        System.out.println("Falha no pagamento: O total dos pedidos ultrapassa R$ 400,00.");
+                    if (pedidoAtual.calcularTotal() > 950.0) {
+                        System.out.println("Falha no pagamento: O total dos pedidos ultrapassa R$ 950,00.");
                     } else {
                         ConsultarSaldo consultarSaldo = new ConsultarSaldo(pedidoAtual.calcularTotal());
                         System.out.println("Seu saldo atual é: R$ " + consultarSaldo.getSaldo());
@@ -96,6 +98,18 @@ public class SistemadeRestaurante {
         cardapio.add(new ItemMenu(5, "Sobremesa da Casa", 12.00));
         cardapio.add(new ItemMenu(6, "Pizza Margherita", 45.00));
         cardapio.add(new ItemMenu(7, "Crepe de nutella", 18.00));
+        cardapio.add(new ItemMenu(8, "Salada", 6.00));
+        cardapio.add(new ItemMenu(9, "Cerveja Budweiser 250Ml", 10.00));
+        cardapio.add(new ItemMenu(10, "Água Mineral 500ml", 3.00));
+        cardapio.add(new ItemMenu(11, "Café Expresso", 3.50));
+        cardapio.add(new ItemMenu(12, "Chá Gelado", 5.00));
+        cardapio.add(new ItemMenu(13, "Lasanha à Bolonhesa", 32.00));
+        cardapio.add(new ItemMenu(14, "Espaguete ao Alho e Óleo", 25.67));
+        cardapio.add(new ItemMenu(15, "Frango à Parmegiana", 43.00));
+        cardapio.add(new ItemMenu(16, "Filé Mignon Grelhado", 55.00));
+        cardapio.add(new ItemMenu(17, "petit gâteau", 60.00));
+        cardapio.add(new ItemMenu(18, "Sorvete de Baunilha", 15.00));
+        cardapio.add(new ItemMenu(19, "Torta de Limão", 18.00));
     }
 
     private static void exibirCardapio() {
