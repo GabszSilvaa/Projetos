@@ -19,7 +19,7 @@ public class cancelamento {
 }
 
 class GerenciadorPedidos {
-    private List<cancelamento> listaPedidos = new ArrayList<>();
+    public List<cancelamento> listaPedidos = new ArrayList<>();
 
     // Método que cancela e faz o pedido desaparecer
     public void cancelarPedido(int id) {
