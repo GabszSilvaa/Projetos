@@ -1,6 +1,7 @@
 package App;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class pedido {
@@ -36,5 +37,9 @@ public class pedido {
         System.out.println("------------------------");
         System.out.printf("TOTAL A PAGAR: R$ %.2f\n", calcularTotal());
         System.out.println("------------------------");
+    }
+
+    public Collection<ItemMenu> getItens() {
+        return new ArrayList<>(itens);
     }
 }
