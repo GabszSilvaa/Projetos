@@ -7,9 +7,12 @@ import java.util.Scanner;
 public class SistemadeRestaurante {
     private static ConsultarSaldo consultarSaldo = new ConsultarSaldo(0.0);
     private static List<ItemMenu> cardapio = new ArrayList<>();
+    private static List<Cadastropessoa> clientes = new ArrayList<>();
     private static final pedido pedidoAtual = new pedido();
 
     private static cancelamento cancelamentoAtual = new cancelamento(0);
+
+    private static Cadastropessoa clienteAtual = new Cadastropessoa("Cliente Padrão", "000.000.000-00");
 
     public static void main(String[] args) {
         carregarCardapio();
@@ -18,13 +21,16 @@ public class SistemadeRestaurante {
 
         do {
             System.out.println("\n=== SEJA BEM VINDO AO RESTAURANTE Byte & Brasa ===");
-            System.out.println("1. Ver Cardápio");
-            System.out.println("2. Adicionar Item ao Pedido");
-            System.out.println("3. Ver Resumo do Pedido");
-            System.out.println("4. Cancelar Item do Pedido");
-            System.out.println("5. Consultar seu Saldo");
-            System.out.println("6. Finalizar e Sair");
+            System.out.println("1. Cadastrar-se");
+            System.out.println("2. Ver todos os clientes cadastrados");
+            System.out.println("3. Ver Cardápio");
+            System.out.println("4. Adicionar Item ao Pedido");
+            System.out.println("5. Ver Resumo do Pedido");
+            System.out.println("6. Cancelar Item do Pedido");
+            System.out.println("7. Consultar seu Saldo");
+            System.out.println("8. Finalizar e Sair");
             System.out.print("Escolha uma opção: ");
+
 
             if (scanner.hasNextInt()) {
                 opcao = scanner.nextInt();
@@ -40,21 +46,42 @@ public class SistemadeRestaurante {
 
             switch (opcao) {
                 case 1:
-                    exibirCardapio();
+                    System.out.println("=== CADASTRO DE CLIENTE ===");
+                    System.out.print("Digite seu nome: ");
+                    scanner.nextLine(); // Limpar o buffer
+                    String nome = scanner.nextLine();
+
+                    System.out.print("Digite seu CPF: ");
+                    String cpf = scanner.nextLine();
+
+                    clienteAtual = new Cadastropessoa(nome, cpf);
+                    clientes.add(clienteAtual); 
+
+                    System.out.println("Cadastro realizado com sucesso!");
                     break;
                 case 2:
-                    exibirCardapio();
-                    System.out.print("Digite o ID do item desejado: ");
-                    int idItem = scanner.nextInt();
-                    adicionarAoPedido(idItem);
+                    System.out.println("=== CLIENTES CADASTRADOS ===");
+                    if (clientes.isEmpty()) {
+                        System.out.println("Nenhum cliente cadastrado.");
+                    } else {
+                        for (Cadastropessoa cliente : clientes) {
+                            System.out.printf("Nome: %s, CPF: %s\n", cliente.getNome(), cliente.getCpf());
+                        }
+                    }
                     break;
                 case 3:
-                    pedidoAtual.exibirResumo();
+                    exibirCardapio();
                     break;
                 case 4:
-                    System.out.println("Cancelando item do pedido...");
-                    cancelamento cancelamentoAtual = new cancelamento(0);
-                    System.out.print("Digite o ID do item que deseja cancelar: ");
+                    System.out.print("Digite o ID do item que deseja adicionar ao pedido: ");
+                    int idPedido = scanner.nextInt();
+                    adicionarAoPedido(idPedido);
+                    break;
+                case 5:
+                    pedidoAtual.exibirResumo();
+                    break;
+                case 6:
+                    System.out.print("Digite o ID do item que deseja cancelar do pedido: ");
                     int idCancelamento = scanner.nextInt();
                     boolean itemEncontrado = false;
                     for (ItemMenu item : pedidoAtual.getItens()) {
@@ -70,22 +97,16 @@ public class SistemadeRestaurante {
                     cancelarItemDoPedido(idCancelamento);
                     System.out.println("Item cancelado com sucesso.");
                     break;
-                case 5:
-                    if (pedidoAtual.calcularTotal() > 950.0) {
-                        System.out.println("Falha no pagamento: O total dos pedidos ultrapassa R$ 950,00.");
-                    } else {
-                        ConsultarSaldo consultarSaldo = new ConsultarSaldo(pedidoAtual.calcularTotal());
-                        System.out.println("Seu saldo atual é: R$ " + consultarSaldo.getSaldo());
-                    }
+                case 7:
+                    System.out.printf("Seu saldo atual é: R$ %.2f\n", consultarSaldo.getSaldo());
                     break;
-                case 6:
-                    pedidoAtual.exibirResumo();
-                    System.out.println("Obrigado pela preferência! Volte sempre.");
+                case 8:
+                    System.out.println("Obrigado por visitar o Restaurante Byte & Brasa! Até a próxima!");
                     break;
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("Opção inválida. Por favor, tente novamente.");
             }
-        } while (opcao != 6);
+        } while (opcao != 12);
 
         scanner.close();
     }
