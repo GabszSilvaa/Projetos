@@ -13,4 +13,7 @@ public class ConsultarSaldo {
     public double calcularSaldoRestante(double totalPedido) {
         return saldo - totalPedido;
     }
+   public void adicionarSaldo(double valor) {
+        saldo += valor;
+   }
 }
