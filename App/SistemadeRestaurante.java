@@ -1,26 +1,41 @@
+
 package App;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 public class SistemadeRestaurante {
-    private static ConsultarSaldo consultarSaldo = new ConsultarSaldo(0.0);
-    private static List<ItemMenu> cardapio = new ArrayList<>();
-    private static List<Cadastropessoa> clientes = new ArrayList<>();
-    private static final pedido pedidoAtual = new pedido();
 
-    private static cancelamento cancelamentoAtual = new cancelamento(0);
+    private static ConsultarSaldo consultarSaldo =
+            new ConsultarSaldo(0.0);
 
-    private static Cadastropessoa clienteAtual = new Cadastropessoa("Cliente Padrão", "000.000.000-00");
+    private static List<ItemMenu> cardapio =
+            new ArrayList<>();
+
+    private static List<Cadastropessoa> clientes =
+            new ArrayList<>();
+
+    private static final Pedido pedidoAtual = new Pedido();
+
+    private static Cancelamento cancelamentoAtual =
+            new Cancelamento(0);
+
+    private static Cadastropessoa clienteAtual =
+            new Cadastropessoa("Cliente Padrão", "000.000.000-00");
 
     public static void main(String[] args) {
+
         carregarCardapio();
-        Scanner scanner = new Scanner(System.in);
+
+        Scanner sc = new Scanner(System.in);
+
         int opcao = 0;
 
         do {
-            System.out.println("\n=== SEJA BEM VINDO AO RESTAURANTE Byte & Brasa ===");
+
+            System.out.println("\n=== SEJA BEM-VINDO AO RESTAURANTE BYTE & BRASA ===");
             System.out.println("1. Cadastrar-se");
             System.out.println("2. Ver todos os clientes cadastrados");
             System.out.println("3. Ver Cardápio");
@@ -29,98 +44,162 @@ public class SistemadeRestaurante {
             System.out.println("6. Cancelar Item do Pedido");
             System.out.println("7. Consultar seu Saldo");
             System.out.println("8. Finalizar e Sair");
+
             System.out.print("Escolha uma opção: ");
 
-
-            if (scanner.hasNextInt()) {
-                opcao = scanner.nextInt();
+            if (sc.hasNextInt()) {
+                opcao = sc.nextInt();
+                sc.nextLine();
             } else {
-                scanner.next();
-                System.out.println("Por favor, digite um número válido.");
+                sc.nextLine();
+                System.out.println("Digite um número válido.");
                 continue;
             }
+
             if (opcao == 5 && pedidoAtual.calcularTotal() == 0) {
                 System.out.println("Você ainda não adicionou nenhum item ao pedido.");
                 continue;
             }
 
             switch (opcao) {
+
                 case 1:
-                    System.out.println("=== CADASTRO DE CLIENTE ===");
+
+                    System.out.println("\n=== CADASTRO DE CLIENTE ===");
+
                     System.out.print("Digite seu nome: ");
-                    scanner.nextLine(); // Limpar o buffer
-                    String nome = scanner.nextLine();
+                    String nome = sc.nextLine();
 
                     System.out.print("Digite seu CPF: ");
-                    String cpf = scanner.nextLine();
+                    String cpf = sc.nextLine();
 
                     clienteAtual = new Cadastropessoa(nome, cpf);
-                    clientes.add(clienteAtual); 
+
+                    clientes.add(clienteAtual);
 
                     System.out.println("Cadastro realizado com sucesso!");
+
                     break;
+
                 case 2:
-                    System.out.println("=== CLIENTES CADASTRADOS ===");
+
+                    System.out.println("\n=== CLIENTES CADASTRADOS ===");
+
                     if (clientes.isEmpty()) {
+
                         System.out.println("Nenhum cliente cadastrado.");
+
                     } else {
+
                         for (Cadastropessoa cliente : clientes) {
-                            System.out.printf("Nome: %s, CPF: %s\n", cliente.getNome(), cliente.getCpf());
+
+                            System.out.printf(
+                                    "Nome: %s | CPF: %s%n",
+                                    cliente.getNome(),
+                                    cliente.getCpf()
+                            );
                         }
                     }
+
                     break;
+
                 case 3:
+
                     exibirCardapio();
+
                     break;
+
                 case 4:
-                    System.out.print("Digite o ID do item que deseja adicionar ao pedido: ");
-                    int idPedido = scanner.nextInt();
-                    adicionarAoPedido(idPedido);
+
+                    System.out.print("Digite o ID do item que deseja adicionar: ");
+
+                    if (sc.hasNextInt()) {
+
+                        int idPedido = sc.nextInt();
+                        sc.nextLine();
+
+                        adicionarAoPedido(idPedido);
+
+                    } else {
+
+                        sc.nextLine();
+                        System.out.println("Digite um ID válido.");
+                    }
+
                     break;
+
                 case 5:
+
                     pedidoAtual.exibirResumo();
+
                     break;
+
                 case 6:
-                    System.out.print("Digite o ID do item que deseja cancelar do pedido: ");
-                    int idCancelamento = scanner.nextInt();
-                    boolean itemEncontrado = false;
-                    for (ItemMenu item : pedidoAtual.getItens()) {
-                        if (item.getId() == idCancelamento) {
-                            itemEncontrado = true;
-                            break;
+
+                    System.out.print("Digite o ID do item que deseja cancelar: ");
+
+                    if (sc.hasNextInt()) {
+
+                        int idCancelamento = sc.nextInt();
+                        sc.nextLine();
+
+                        boolean cancelado =
+                                cancelarItemDoPedido(idCancelamento);
+
+                        if (cancelado) {
+                            System.out.println("Item cancelado com sucesso!");
+                        } else {
+                            System.out.println("Item não encontrado no pedido.");
                         }
+
+                    } else {
+
+                        sc.nextLine();
+                        System.out.println("Digite um ID válido.");
                     }
-                    if (!itemEncontrado) {
-                        System.out.println("Item não encontrado no pedido.");
-                        break;
-                    }
-                    cancelarItemDoPedido(idCancelamento);
-                    System.out.println("Item cancelado com sucesso.");
+
                     break;
+
                 case 7:
-                    System.out.printf("Seu saldo atual é: R$ %.2f\n", consultarSaldo.getSaldo());
+
+                    System.out.printf(
+                            "Seu saldo atual é: R$ %.2f%n",
+                            consultarSaldo.getSaldo()
+                    );
+
                     break;
+
                 case 8:
-                    System.out.println("Obrigado por visitar o Restaurante Byte & Brasa! Até a próxima!");
+
+                    System.out.println(
+                            "Obrigado por visitar o Restaurante Byte & Brasa! Até a próxima!"
+                    );
+
                     break;
+
                 default:
-                    System.out.println("Opção inválida. Por favor, tente novamente.");
+
+                    System.out.println("Opção inválida. Tente novamente.");
+
+                    break;
             }
+
         } while (opcao != 8);
 
-        scanner.close();
+        sc.close();
     }
 
     private static void carregarCardapio() {
+
         cardapio.add(new ItemMenu(1, "Hambúrguer Artesanal", 28.50));
         cardapio.add(new ItemMenu(2, "Batata Frita Extra", 14.00));
         cardapio.add(new ItemMenu(3, "Refrigerante Lata", 6.00));
         cardapio.add(new ItemMenu(4, "Suco Natural 500ml", 8.50));
         cardapio.add(new ItemMenu(5, "Sobremesa da Casa", 12.00));
         cardapio.add(new ItemMenu(6, "Pizza Margherita", 45.00));
-        cardapio.add(new ItemMenu(7, "Crepe de nutella", 18.00));
+        cardapio.add(new ItemMenu(7, "Crepe de Nutella", 18.00));
         cardapio.add(new ItemMenu(8, "Salada", 6.00));
-        cardapio.add(new ItemMenu(9, "Cerveja Budweiser 250Ml", 10.00));
+        cardapio.add(new ItemMenu(9, "Cerveja Budweiser 250ml", 10.00));
         cardapio.add(new ItemMenu(10, "Água Mineral 500ml", 3.00));
         cardapio.add(new ItemMenu(11, "Café Expresso", 3.50));
         cardapio.add(new ItemMenu(12, "Chá Gelado", 5.00));
@@ -128,33 +207,50 @@ public class SistemadeRestaurante {
         cardapio.add(new ItemMenu(14, "Espaguete ao Alho e Óleo", 25.67));
         cardapio.add(new ItemMenu(15, "Frango à Parmegiana", 43.00));
         cardapio.add(new ItemMenu(16, "Filé Mignon Grelhado", 55.00));
-        cardapio.add(new ItemMenu(17, "petit gâteau", 60.00));
+        cardapio.add(new ItemMenu(17, "Petit Gâteau", 60.00));
         cardapio.add(new ItemMenu(18, "Sorvete de Baunilha", 15.00));
         cardapio.add(new ItemMenu(19, "Torta de Limão", 18.00));
     }
 
     private static void exibirCardapio() {
+
         System.out.println("\n--- CARDÁPIO ---");
+
         for (ItemMenu item : cardapio) {
             System.out.println(item);
         }
     }
-    private static void cancelarItemDoPedido(int id) {
-        cancelamento cancelamentoAtual = new cancelamento(0);
-        for (ItemMenu item : pedidoAtual.getItens()) {
-            if (item.getId() == id) {
-                cancelamentoAtual.cancelarItem(item);
-                return;
+
+    private static boolean cancelarItemDoPedido(int id) {
+
+        Iterator<ItemMenu> iterator = pedidoAtual.getItens().iterator();
+
+        while (iterator.hasNext()) {
+            if (iterator.next().getId() == id) {
+
+                iterator.remove();
+
+                return true;
             }
         }
+        System.out.println("Item não encontrado no pedido.");
+        return false;
     }
+
     private static void adicionarAoPedido(int id) {
+
         for (ItemMenu item : cardapio) {
+
             if (item.getId() == id) {
+
                 pedidoAtual.adicionarItem(item);
+
+                System.out.println("Item adicionado ao pedido!");
+
                 return;
             }
         }
+
         System.out.println("Item não encontrado no cardápio.");
     }
 }
