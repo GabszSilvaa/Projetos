@@ -43,7 +43,8 @@ public class SistemadeRestaurante {
             System.out.println("5. Ver Resumo do Pedido");
             System.out.println("6. Cancelar Item do Pedido");
             System.out.println("7. Consultar seu Saldo");
-            System.out.println("8. Finalizar e Sair");
+            System.out.println("8. Adicionar Saldo à sua Conta");
+            System.out.println("9. Finalizar e Sair");
 
             System.out.print("Escolha uma opção: ");
 
@@ -130,7 +131,11 @@ public class SistemadeRestaurante {
 
                 case 5:
 
+                    System.out.println("\n=== RESUMO DO PEDIDO ===");
+
                     pedidoAtual.exibirResumo();
+                    System.out.printf("Total do pedido: R$ %.2f%n", pedidoAtual.calcularTotal());
+                    System.out.printf("Saldo restante: R$ %.2f%n", consultarSaldo.calcularSaldoRestante(pedidoAtual.calcularTotal()));
 
                     break;
 
@@ -171,6 +176,30 @@ public class SistemadeRestaurante {
 
                 case 8:
 
+                    System.out.print("Digite o valor que deseja adicionar ao seu saldo: ");
+
+                    if (sc.hasNextDouble()) {
+
+                        double valor = sc.nextDouble();
+                        sc.nextLine();
+
+                        if (valor > 0) {
+                            consultarSaldo.adicionarSaldo(valor);
+                            System.out.printf("Saldo adicionado com sucesso! Seu novo saldo é: R$ %.2f%n", consultarSaldo.getSaldo());
+                        } else {
+                            System.out.println("Valor inválido. Por favor, digite um valor positivo.");
+                        }
+
+                    } else {
+
+                        sc.nextLine();
+                        System.out.println("Digite um valor válido.");
+                    }
+
+                    break;
+
+                case 9:
+
                     System.out.println(
                             "Obrigado por visitar o Restaurante Byte & Brasa! Até a próxima!"
                     );
@@ -184,7 +213,7 @@ public class SistemadeRestaurante {
                     break;
             }
 
-        } while (opcao != 8);
+        } while (opcao != 9);
 
         sc.close();
     }
