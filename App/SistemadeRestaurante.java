@@ -106,7 +106,7 @@ public class SistemadeRestaurante {
                 default:
                     System.out.println("Opção inválida. Por favor, tente novamente.");
             }
-        } while (opcao != 12);
+        } while (opcao != 8);
 
         scanner.close();
     }
