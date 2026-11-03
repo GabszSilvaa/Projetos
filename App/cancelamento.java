@@ -14,10 +14,19 @@ public class Cancelamento {
         return id;
     }
 
-    public void cancelarItem(ItemMenu item) {
-        System.out.println("-> " + item.getNome() + " cancelado do pedido!");
+   public void cancelarItem(Pedido pedido, int id) {
+
+    boolean removido = pedido.getItens()
+            .removeIf(item -> item.getId() == id);
+
+    if (removido) {
+        System.out.println("Item cancelado com sucesso!");
+    } else {
+        System.out.println("Item não encontrado no pedido.");
     }
 }
+    }
+
 
 class GerenciadorPedidos {
     public List<Cancelamento> listaPedidos = new ArrayList<>();
