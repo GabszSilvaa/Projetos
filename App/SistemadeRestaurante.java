@@ -2,7 +2,6 @@
 package App;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -57,10 +56,11 @@ public class SistemadeRestaurante {
                 continue;
             }
 
-            if (opcao == 5 && pedidoAtual.calcularTotal() == 0) {
+            if (opcao == 5 && pedidoAtual.getItens().isEmpty()) {
                 System.out.println("Você ainda não adicionou nenhum item ao pedido.");
-                continue;
-            }
+                 continue;
+            
+                }
 
             switch (opcao) {
 
@@ -148,13 +148,12 @@ public class SistemadeRestaurante {
                         int idCancelamento = sc.nextInt();
                         sc.nextLine();
 
-                        boolean cancelado =
-                                cancelarItemDoPedido(idCancelamento);
+                        boolean cancelado = cancelarItemDoPedido(idCancelamento);
 
                         if (cancelado) {
                             System.out.println("Item cancelado com sucesso!");
                         } else {
-                            System.out.println("Item não encontrado no pedido.");
+                            System.out.println("Não foi possível cancelar o item.");
                         }
 
                     } else {
@@ -162,7 +161,6 @@ public class SistemadeRestaurante {
                         sc.nextLine();
                         System.out.println("Digite um ID válido.");
                     }
-
                     break;
 
                 case 7:
@@ -239,6 +237,7 @@ public class SistemadeRestaurante {
         cardapio.add(new ItemMenu(17, "Petit Gâteau", 60.00));
         cardapio.add(new ItemMenu(18, "Sorvete de Baunilha", 15.00));
         cardapio.add(new ItemMenu(19, "Torta de Limão", 18.00));
+        cardapio.add(new ItemMenu(20, "Coxinha de Frango", 3.50));
     }
 
     private static void exibirCardapio() {
@@ -250,21 +249,12 @@ public class SistemadeRestaurante {
         }
     }
 
-    private static boolean cancelarItemDoPedido(int id) {
+    
+private static boolean cancelarItemDoPedido(int id) {
 
-        Iterator<ItemMenu> iterator = pedidoAtual.getItens().iterator();
-
-        while (iterator.hasNext()) {
-            if (iterator.next().getId() == id) {
-
-                iterator.remove();
-
-                return true;
-            }
-        }
-        System.out.println("Item não encontrado no pedido.");
-        return false;
-    }
+        return pedidoAtual.getItens()
+            .removeIf(item -> item.getId() == id);
+}
 
     private static void adicionarAoPedido(int id) {
 
