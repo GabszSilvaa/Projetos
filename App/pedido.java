@@ -1,13 +1,12 @@
 package App;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class pedido {
+public class Pedido {
     private List<ItemMenu> itens;
 
-    public pedido() {
+    public Pedido() {
         this.itens = new ArrayList<>();
     }
 
@@ -39,7 +38,7 @@ public class pedido {
         System.out.println("------------------------");
     }
 
-    public Collection<ItemMenu> getItens() {
-        return new ArrayList<>(itens);
-    }
+    public List<ItemMenu> getItens() {
+    return itens;
 }
+    }
