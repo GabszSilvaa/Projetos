@@ -29,7 +29,7 @@ Com isso, o sistema procura tornar essas atividades mais organizadas, práticas 
 - Jhonata Borges Silva Da Costa
 - Gabriel Nascimento Serra
 
-*Observação: adicionar os nomes dos demais integrantes, caso o projeto seja desenvolvido em equipe.*
+
 
 ## 4. Principais funcionalidades
 
