@@ -40,5 +40,5 @@ public class Pedido {
 
     public List<ItemMenu> getItens() {
     return itens;
+  }
 }
-    }
