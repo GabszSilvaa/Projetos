@@ -74,8 +74,12 @@ public class SistemadeRestaurante {
                     System.out.print("Digite seu CPF: ");
                     String cpf = sc.nextLine();
 
-                    clienteAtual = new Cadastropessoa(nome, cpf);
-
+                    if (cpf.length() != 11) {
+                        System.out.println("CPF Válido deve conter 11 dígitos. Por favor, digite um CPF válido.");
+                        break;
+                    }
+                    clienteAtual = new Cadastropessoa(nome, cpf);                                           
+                    
                     clientes.add(clienteAtual);
 
                     System.out.println("Cadastro realizado com sucesso!");
