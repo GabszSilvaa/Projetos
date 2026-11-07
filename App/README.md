@@ -116,7 +116,7 @@ cd nome-do-projeto
 
 ### 3. Abrir o projeto
 
-Abra a pasta do projeto no IntelliJ IDEA.
+Abra a pasta do projeto no Vs Code
 
 Verifique se todas as classes estão presentes e se o JDK está configurado corretamente.
 
