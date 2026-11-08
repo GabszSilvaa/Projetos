@@ -1,4 +1,3 @@
-package App;
 
 public class ConsultarSaldo {
     private double saldo;
