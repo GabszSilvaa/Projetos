@@ -1,5 +1,3 @@
-package App;
-
 public class Cadastropessoa {
 
     private String nome;
