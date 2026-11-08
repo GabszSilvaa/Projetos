@@ -1,4 +1,3 @@
-package App;
 
 public class ItemMenu {
     private int id;
