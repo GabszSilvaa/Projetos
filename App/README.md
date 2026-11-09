@@ -81,10 +81,10 @@ Para executar o projeto, é necessário possuir:
 - VS CODE ou outra IDE compatível com Java.
 - Terminal ou console para interação com o sistema.
 - Arquivos `.java` do projeto, incluindo suas classes auxiliares.
-- ====PARA ACESSO AO SISTEMA====
-- **LOGIN (admin)** **SENHA(123)**
-- **LOGIN (funcionario)** **SENHA(123)**
-- **LOGIN (cliente)** **SENHA(123)**
+- ====PARA ACESSO AO SISTEMA,ESCOLHA O PERFIL DE SUA PREFERÊNCIA====
+- **LOGIN (ADMIN)** **SENHA(123)**
+- **LOGIN (FUNCIONARIO)** **SENHA(123)**
+- **LOGIN (CLIENTE)** **SENHA(123)**
 
 ## 8. Passo a passo para compilar e executar o projeto
 
