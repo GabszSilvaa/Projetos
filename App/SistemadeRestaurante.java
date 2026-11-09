@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,118 +21,161 @@ public class SistemadeRestaurante {
 
     private static Cadastropessoa clienteAtual =
             new Cadastropessoa("Cliente Padrão", "000.000.000-00");
-    
+
+
+    // INÍCIO DO SISTEMA
+
     public static void main(String[] args) {
 
         carregarCardapio();
 
         Scanner sc = new Scanner(System.in);
 
-        // Primeiro, o usuário precisa entrar no sistema.
-        String perfil = fazerLogin(sc);
+        // Mantém o sistema funcionando até escolher encerrar.
+        boolean sistemaAtivo = true;
 
-        if (perfil == null) {
-            System.out.println("Acesso encerrado.");
-            sc.close();
-            return;
-        }
+        while (sistemaAtivo) {
 
-        int opcao = -1;
+            String perfil = fazerLogin(sc);
 
-        // Mantém o menu ativo até o usuário escolher sair.
-        while (opcao != 0) {
+            if (perfil == null) {
 
-            exibirMenu(perfil);
+                System.out.println("Sistema encerrado.");
+                sistemaAtivo = false;
 
-            System.out.print("Escolha uma opção: ");
-
-            if (sc.hasNextInt()) {
-                opcao = sc.nextInt();
-                sc.nextLine();
             } else {
-                sc.nextLine();
-                System.out.println("Digite um número válido.");
-                continue;
-            }
 
-            executarOpcao(perfil, opcao, sc);
+                if (perfil.equals("Administrador")) {
+
+                    menuAdministrador(sc);
+
+                } else if (perfil.equals("Funcionario")) {
+
+                    menuFuncionario(sc);
+
+                } else if (perfil.equals("Cliente")) {
+
+                    menuCliente(sc);
+                }
+
+                System.out.println("\nLogout realizado com sucesso!");
+                System.out.println("Voltando para a tela de login...");
+            }
         }
 
-        System.out.println("Logout realizado com sucesso!");
         sc.close();
     }
 
-    
-private static String fazerLogin(Scanner sc) {
 
-    while (true) {
+    // LOGIN DO SISTEMA
 
-        System.out.println("\n=== LOGIN BYTE & BRASA ===");
-        
-        System.out.println("Digite 0 no usuário para sair.");
-        
-        System.out.println("Usuário: ");
-        
-        
-         String usuario = sc.nextLine();
+    private static String fazerLogin(Scanner sc) {
 
-        if (usuario.equals("0")) {
-            return null;
+        while (true) {
+
+            System.out.println("\n=== LOGIN BYTE & BRASA ===");
+            System.out.println("Digite 0 no usuário para sair.");
+
+            System.out.print("Usuário: ");
+            String usuario = sc.nextLine();
+
+            if (usuario.equals("0")) {
+                return null;
+            }
+
+            System.out.print("Senha: ");
+            String senha = sc.nextLine();
+
+            if (usuario.equals("admin") && senha.equals("123")) {
+
+                System.out.println("Login realizado! Perfil: Administrador");
+                return "Administrador";
+            }
+
+            if (usuario.equals("funcionario") && senha.equals("123")) {
+
+                System.out.println("Login realizado! Perfil: Funcionário");
+                return "Funcionario";
+            }
+
+            if (usuario.equals("cliente") && senha.equals("123")) {
+
+                System.out.println("Login realizado! Perfil: Cliente");
+                return "Cliente";
+            }
+
+            System.out.println("Usuário ou senha incorretos. Tente novamente!");
         }
-
-        System.out.print("Senha: ");
-        String senha = sc.nextLine();
-
-        if (usuario.equals("admin") && senha.equals("123")) {
-            System.out.println("Login realizado! Perfil: Administrador");
-            return "Administrador";
-        }
-
-        if (usuario.equals("funcionario") && senha.equals("123")) {
-            System.out.println("Login realizado! Perfil: Funcionário");
-            return "Funcionario";
-        }
-
-        if (usuario.equals("cliente") && senha.equals("123")) {
-            System.out.println("Login realizado! Perfil: Cliente");
-            return "Cliente";
-        }
-
-        System.out.println("Usuário ou senha incorretos. Tente novamente!");
     }
-}
 
 
-    // Cada perfil visualiza somente as opções permitidas.
-    private static void exibirMenu(String perfil) {
+    // TELA DO ADMINISTRADOR
 
-        System.out.println("\n=== RESTAURANTE BYTE & BRASA ===");
+    private static void menuAdministrador(Scanner sc) {
 
-        if (perfil.equals("Administrador")) {
+        int opcao = -1;
 
-            System.out.println("=== MENU ADMINISTRADOR ===");
+        while (opcao != 0) {
+
+            System.out.println("\n================================");
+            System.out.println("       MENU ADMINISTRADOR");
+            System.out.println("================================");
             System.out.println("1. Ver todos os clientes");
-            System.out.println("2. Cadastrar Clientes");
+            System.out.println("2. Cadastrar clientes");
             System.out.println("3. Ver cardápio");
             System.out.println("4. Consultar saldo");
             System.out.println("5. Adicionar saldo");
             System.out.println("6. Adicionar item ao pedido");
             System.out.println("7. Ver resumo do pedido");
             System.out.println("8. Cancelar item do pedido");
-            System.out.println("0. Sair");
+            System.out.println("0. Sair da conta");
 
-        } else if (perfil.equals("Funcionario")) {
+            System.out.print("Escolha uma opção: ");
 
-            System.out.println("=== MENU FUNCIONÁRIO ===");
+            opcao = lerOpcao(sc);
+
+            executarOpcao("Administrador", opcao, sc);
+        }
+    }
+
+
+    // TELA DO FUNCIONÁRIO
+
+    private static void menuFuncionario(Scanner sc) {
+
+        int opcao = -1;
+
+        while (opcao != 0) {
+
+            System.out.println("\n================================");
+            System.out.println("        MENU FUNCIONÁRIO");
+            System.out.println("================================");
             System.out.println("1. Ver cardápio");
             System.out.println("2. Adicionar item ao pedido");
             System.out.println("3. Ver resumo do pedido");
             System.out.println("4. Cancelar item do pedido");
-            System.out.println("0. Sair");
+            System.out.println("0. Sair da conta");
 
-        } else if (perfil.equals("Cliente")) {
+            System.out.print("Escolha uma opção: ");
 
-            System.out.println("=== MENU CLIENTE ===");
+            opcao = lerOpcao(sc);
+
+            executarOpcao("Funcionario", opcao, sc);
+        }
+    }
+
+
+    // TELA DO CLIENTE
+
+    private static void menuCliente(Scanner sc) {
+
+        int opcao = -1;
+
+        while (opcao != 0) {
+
+            System.out.println("\n================================");
+            System.out.println("           MENU CLIENTE");
+            System.out.println("================================");
             System.out.println("1. Cadastrar-se");
             System.out.println("2. Ver cardápio");
             System.out.println("3. Adicionar item ao pedido");
@@ -139,43 +183,83 @@ private static String fazerLogin(Scanner sc) {
             System.out.println("5. Cancelar item do pedido");
             System.out.println("6. Consultar saldo");
             System.out.println("7. Adicionar saldo");
-            System.out.println("8. Pagar a Conta");
-            System.out.println("0. Sair");
+            System.out.println("8. Pagar a conta");
+            System.out.println("0. Sair da conta");
+
+            System.out.print("Escolha uma opção: ");
+
+            opcao = lerOpcao(sc);
+
+            executarOpcao("Cliente", opcao, sc);
         }
     }
 
-    // Verifica o perfil antes de executar cada funcionalidade.
+
+    // LEITURA DAS OPÇÕES
+
+    private static int lerOpcao(Scanner sc) {
+
+        if (sc.hasNextInt()) {
+
+            int opcao = sc.nextInt();
+            sc.nextLine();
+
+            return opcao;
+
+        } else {
+
+            sc.nextLine();
+
+            System.out.println("Digite uma opção válida.");
+
+            return -1;
+        }
+    }
+
+
+    // EXECUÇÃO DAS OPÇÕES DE CADA PERFIL
+
     private static void executarOpcao(String perfil, int opcao, Scanner sc) {
 
         if (perfil.equals("Administrador")) {
 
             switch (opcao) {
+
                 case 1:
                     listarClientes();
                     break;
+
                 case 2:
                     cadastrarCliente(sc);
                     break;
+
                 case 3:
                     exibirCardapio();
                     break;
+
                 case 4:
                     consultarSaldoAtual();
                     break;
+
                 case 5:
                     adicionarSaldo(sc);
                     break;
+
                 case 6:
                     adicionarItemAoPedido(sc);
                     break;
+
                 case 7:
                     exibirResumoPedido();
                     break;
+
                 case 8:
                     cancelarItem(sc);
                     break;
+
                 case 0:
                     break;
+
                 default:
                     System.out.println("Opção inválida.");
                     break;
@@ -184,20 +268,26 @@ private static String fazerLogin(Scanner sc) {
         } else if (perfil.equals("Funcionario")) {
 
             switch (opcao) {
+
                 case 1:
                     exibirCardapio();
                     break;
+
                 case 2:
                     adicionarItemAoPedido(sc);
                     break;
+
                 case 3:
                     exibirResumoPedido();
                     break;
+
                 case 4:
                     cancelarItem(sc);
                     break;
+
                 case 0:
                     break;
+
                 default:
                     System.out.println("Opção inválida.");
                     break;
@@ -206,38 +296,51 @@ private static String fazerLogin(Scanner sc) {
         } else if (perfil.equals("Cliente")) {
 
             switch (opcao) {
+
                 case 1:
                     cadastrarCliente(sc);
                     break;
+
                 case 2:
                     exibirCardapio();
                     break;
+
                 case 3:
                     adicionarItemAoPedido(sc);
                     break;
+
                 case 4:
                     exibirResumoPedido();
                     break;
+
                 case 5:
                     cancelarItem(sc);
                     break;
+
                 case 6:
                     consultarSaldoAtual();
                     break;
+
                 case 7:
                     adicionarSaldo(sc);
                     break;
+
                 case 8:
                     realizarPagamento();
                     break;
+
                 case 0:
                     break;
+
                 default:
                     System.out.println("Opção inválida.");
                     break;
             }
         }
     }
+
+
+    // CADASTRO DE CLIENTES
 
     private static void cadastrarCliente(Scanner sc) {
 
@@ -248,8 +351,10 @@ private static String fazerLogin(Scanner sc) {
 
         System.out.print("Digite seu CPF (somente números): ");
         String cpf = sc.nextLine();
+        
 
-        if (cpf.length() != 11) {
+        if (String.valueOf(cpf).length() != 11) {
+
             System.out.println("O CPF deve conter 11 dígitos.");
             return;
         }
@@ -260,14 +365,21 @@ private static String fazerLogin(Scanner sc) {
         System.out.println("Cadastro realizado com sucesso!");
     }
 
+
+    // LISTAGEM DE CLIENTES
+
     private static void listarClientes() {
 
         System.out.println("\n=== CLIENTES CADASTRADOS ===");
 
         if (clientes.isEmpty()) {
+
             System.out.println("Nenhum cliente cadastrado.");
+
         } else {
+
             for (Cadastropessoa cliente : clientes) {
+
                 System.out.printf(
                         "Nome: %s | CPF: %s%n",
                         cliente.getNome(),
@@ -277,6 +389,9 @@ private static String fazerLogin(Scanner sc) {
         }
     }
 
+
+    // CONSULTA DE SALDO
+
     private static void consultarSaldoAtual() {
 
         System.out.printf(
@@ -285,48 +400,69 @@ private static String fazerLogin(Scanner sc) {
         );
     }
 
+
+    // ADICIONAR SALDO
+
     private static void adicionarSaldo(Scanner sc) {
 
         System.out.print("Digite o valor que deseja adicionar ao seu saldo: ");
 
         if (sc.hasNextDouble()) {
+
             double valor = sc.nextDouble();
             sc.nextLine();
 
             if (valor > 0) {
+
                 consultarSaldo.adicionarSaldo(valor);
+
                 System.out.printf(
                         "Saldo adicionado! Novo saldo: R$ %.2f%n",
                         consultarSaldo.getSaldo()
                 );
+
             } else {
+
                 System.out.println("Digite um valor positivo.");
             }
 
         } else {
+
             sc.nextLine();
+
             System.out.println("Digite um valor válido.");
         }
     }
+
+
+    // ADICIONAR ITEM AO PEDIDO
 
     private static void adicionarItemAoPedido(Scanner sc) {
 
         System.out.print("Digite o ID do item que deseja adicionar: ");
 
         if (sc.hasNextInt()) {
+
             int idPedido = sc.nextInt();
             sc.nextLine();
 
             adicionarAoPedido(idPedido);
+
         } else {
+
             sc.nextLine();
+
             System.out.println("Digite um ID válido.");
         }
     }
 
+
+    // RESUMO DO PEDIDO
+
     private static void exibirResumoPedido() {
 
         if (pedidoAtual.getItens().isEmpty()) {
+
             System.out.println("Você ainda não adicionou nenhum item ao pedido.");
             return;
         }
@@ -335,8 +471,11 @@ private static String fazerLogin(Scanner sc) {
 
         pedidoAtual.exibirResumo();
 
-        System.out.println("Você Adicionou " + pedidoAtual.getItens().size() + " itens ao pedido.");
-        
+        System.out.println(
+                "Você adicionou " + pedidoAtual.getItens().size()
+                + " itens ao pedido."
+        );
+
         System.out.printf(
                 "Total do pedido: R$ %.2f%n",
                 pedidoAtual.calcularTotal()
@@ -348,27 +487,39 @@ private static String fazerLogin(Scanner sc) {
         );
     }
 
+
+    // CANCELAR ITEM
+
     private static void cancelarItem(Scanner sc) {
 
         System.out.print("Digite o ID do item que deseja cancelar: ");
 
         if (sc.hasNextInt()) {
+
             int idCancelamento = sc.nextInt();
             sc.nextLine();
 
             boolean cancelado = cancelarItemDoPedido(idCancelamento);
 
             if (cancelado) {
+
                 System.out.println("Item cancelado com sucesso!");
+
             } else {
+
                 System.out.println("Não foi possível cancelar o item.");
             }
 
         } else {
+
             sc.nextLine();
+
             System.out.println("Digite um ID válido.");
         }
     }
+
+
+    // CARREGAR CARDÁPIO
 
     private static void carregarCardapio() {
 
@@ -394,6 +545,9 @@ private static String fazerLogin(Scanner sc) {
         cardapio.add(new ItemMenu(20, "Coxinha de Frango", 3.50));
     }
 
+
+    // EXIBIR CARDÁPIO
+
     private static void exibirCardapio() {
 
         System.out.println("\n--- CARDÁPIO ---");
@@ -403,11 +557,17 @@ private static String fazerLogin(Scanner sc) {
         }
     }
 
+
+    // CANCELAR ITEM DO PEDIDO
+
     private static boolean cancelarItemDoPedido(int id) {
 
         return pedidoAtual.getItens()
                 .removeIf(item -> item.getId() == id);
     }
+
+
+    // ADICIONAR ITEM AO PEDIDO
 
     private static void adicionarAoPedido(int id) {
 
@@ -426,35 +586,42 @@ private static String fazerLogin(Scanner sc) {
         System.out.println("Item não encontrado no cardápio.");
     }
 
+
+    // REALIZAR PAGAMENTO
+
     private static void realizarPagamento() {
 
-    if (pedidoAtual.getItens().isEmpty()) {
-        System.out.println("Você não tem itens no pedido para pagar.");
-        return;
+        if (pedidoAtual.getItens().isEmpty()) {
+
+            System.out.println("Você não tem itens no pedido para pagar.");
+            return;
+        }
+
+        double totalPedido = pedidoAtual.calcularTotal();
+
+        double saldoRestante =
+                consultarSaldo.calcularSaldoRestante(totalPedido);
+
+        if (saldoRestante >= 0) {
+
+            System.out.printf(
+                    "Pagamento realizado com sucesso! Total pago: R$ %.2f%n",
+                    totalPedido
+            );
+
+            System.out.println(
+                    "======= Obrigado por escolher o Restaurante Byte & Brasa! ======="
+            );
+
+            consultarSaldo.adicionarSaldo(-totalPedido);
+
+            pedidoAtual.getItens().clear();
+
+        } else {
+
+            System.out.println(
+                    "Saldo insuficiente para realizar o pagamento."
+            );
+        }
     }
-
-    double totalPedido = pedidoAtual.calcularTotal();
-
-    double saldoRestante =
-            consultarSaldo.calcularSaldoRestante(totalPedido);
-
-    if (saldoRestante >= 0) {
-
-        System.out.printf(
-                "Pagamento realizado com sucesso! Total pago: R$ %.2f%n",
-                totalPedido
-        );
-        
-        System.out.println("=======Obrigado por escolher o Restaurante Byte & Brasa!========");
-        consultarSaldo.adicionarSaldo(-totalPedido);
-
-        pedidoAtual.getItens().clear();
-
-    } else {
-
-        System.out.println(
-                "Saldo insuficiente para realizar o pagamento."
-        );
-    }
-}
 }
