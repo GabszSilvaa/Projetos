@@ -20,7 +20,7 @@ public class SistemadeRestaurante {
             new Cancelamento(0);
 
     private static Cadastropessoa clienteAtual =
-            new Cadastropessoa("Cliente Padrão", "000.000.000-00");
+            new Cadastropessoa("Cliente Padrão", "00000000000");
 
 
     // INÍCIO DO SISTEMA
@@ -610,7 +610,7 @@ public class SistemadeRestaurante {
             );
 
             System.out.println(
-                    "======= Obrigado por escolher o Restaurante Byte & Brasa! ======="
+                    "======= OBRIGADO PELA PREFERÊNCIA,VOLTE SEMPRE AO BYTE E BRASA ======="
             );
 
             consultarSaldo.adicionarSaldo(-totalPedido);
