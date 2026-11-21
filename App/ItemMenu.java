@@ -1,13 +1,13 @@
 
 public class ItemMenu {
 
-    // ATRIBUTOS
+    
     private int id;
     private String nome;
     private double preco;
     private int quantidade = 1;
 
-    // CONSTRUTOR
+    
     public ItemMenu(int id, String nome, double preco) {
 
         this.id = id;
