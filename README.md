@@ -46,9 +46,9 @@ O sistema possui as seguintes funcionalidades:
 
 ## 5. Perfis de acesso e permissões
 
-Na versão atual, o sistema funciona por meio de um menu interativo no terminal, sem autenticação de usuários ou diferenciação de permissões.
+Na versão atual, o sistema funciona por meio de um menu interativo no terminal, com autenticação de usuários ou diferenciação de permissões.
 
-**Perfil disponível: Operador do sistema**
+**Perfil disponível: admin**
 
 Permissões:
 - Cadastrar clientes.
