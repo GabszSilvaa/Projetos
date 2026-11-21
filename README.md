@@ -60,7 +60,7 @@ Permissões:
 - Consultar o saldo.
 - Finalizar a utilização do sistema.
 
-**Observação:** todas as funcionalidades são disponibilizadas pelo menu principal, sem restrições por nível de acesso.
+**Observação:** todas as funcionalidades são disponibilizadas pelo menu principal, com restrições por nível de acesso.
 
 ## 6. Tecnologias utilizadas
 
