@@ -109,7 +109,7 @@ javac -version
 Faça o download ou clone do repositório:
 
 ```bash
-git clone URL_DO_REPOSITORIO            https://github.com/GabszSilvaa/Projetos.git
+git clone https://github.com/GabszSilvaa/Projetos.git
 ```
 
 Entre na pasta do projeto:
