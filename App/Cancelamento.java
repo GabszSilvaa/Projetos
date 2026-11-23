@@ -2,10 +2,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class cancelamento {
+public class Cancelamento {
     private int id;
 
-    public cancelamento(int id) {
+    public Cancelamento(int id) {
         this.id = id;
     }
 
