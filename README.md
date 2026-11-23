@@ -161,7 +161,7 @@ O projeto é organizado em classes, cada uma responsável por representar ou con
 Byte-Brasa/
 │
 ├── src/
-│   └── App/
+│   
 │       ├── SistemadeRestaurante.java
 │       ├── ItemMenu.java
 │       ├── Cadastropessoa.java
