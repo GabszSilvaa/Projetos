@@ -2,7 +2,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class pedido {
+public class Pedido {
 
     private List<ItemMenu> itens = new ArrayList<>();
 
