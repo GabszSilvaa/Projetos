@@ -30,10 +30,10 @@ public class Cancelamento {
 class GerenciadorPedidos {
     public List<Cancelamento> listaPedidos = new ArrayList<>();
 
-    // Método que cancela e faz o pedido desaparecer
+    
     public void cancelarPedido(int id) {
 
-        // O removeIf varre a lista e deleta instantaneamente o objeto que tiver o ID correspondente
+        
         boolean removido = listaPedidos.removeIf(pedido -> pedido.getId() == id);
 
         if (removido) {
